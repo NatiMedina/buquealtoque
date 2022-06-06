@@ -19,6 +19,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/dashboard';
 
+    public const TWO_FACTOR = "/two-factor";
+
     /**
      * The controller namespace for the application.
      *
