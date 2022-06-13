@@ -25,7 +25,14 @@ class User extends Authenticatable
         'birthday',
         'email',
         'password',
-        'pais'
+        'pais',
+        'card_type',
+        'card_number',
+        'card_pin',
+        'card_expire_month',
+        'card_expire_year',
+        'cbu',
+        'cvu'
     ];
 
     /**
