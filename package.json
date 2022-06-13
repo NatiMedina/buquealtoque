@@ -30,6 +30,8 @@
         "@fortawesome/free-regular-svg-icons": "^6.1.1",
         "@fortawesome/free-solid-svg-icons": "^6.1.1",
         "@fortawesome/react-fontawesome": "^0.1.18",
-        "react-month-picker": "^2.2.1"
+        "formik": "^2.2.9",
+        "react-month-picker": "^2.2.1",
+        "yup": "^0.32.11"
     }
 }
