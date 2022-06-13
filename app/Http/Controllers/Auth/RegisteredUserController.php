@@ -54,9 +54,11 @@ class RegisteredUserController extends Controller
             'card_type'=> $request->card_type,
             'card_number'=> $request->card_number,    
             'card_pin'=> $request->card_pin,    
-            'card_expire_date'=> $request->card_expire_date,    
+            'card_expire_month'=> $request->card_expire_month, 
+            'card_expire_year'=> $request->card_expire_year, 
             'cbu'=> $request->cbu, 
             'cvu'=> $request->cvu, 
+            'pais'=> $request->pais,
             'password' => Hash::make($request->password),
         ]);
 

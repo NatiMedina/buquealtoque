@@ -26,7 +26,8 @@ class CreateUsersTable extends Migration
             $table->string('card_expire_year')->nullable();     
             $table->string('card_expire_month')->nullable();    
             $table->string('cbu')->nullable();
-            $table->string('cvu')->nullable();    
+            $table->string('cvu')->nullable(); 
+            $table->string('pais');   
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

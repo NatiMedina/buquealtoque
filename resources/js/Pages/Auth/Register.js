@@ -24,7 +24,8 @@ export default function Register() {
         card_expire_month: '06',
         card_pin: '',
         cbu: '',
-        cvu: ''
+        cvu: '',
+        pais: 'Arg'
     });
 
     useEffect(() => {
@@ -37,8 +38,8 @@ export default function Register() {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
     };
 
-    const onHandleNumber = (event) => { 
-        const result = event.target.value.replace(/\D/g, ''); 
+    const onHandleNumber = (event) => {
+        const result = event.target.value.replace(/\D/g, '');
         setData(event.target.name, result)
     };
 
@@ -68,6 +69,20 @@ export default function Register() {
 
             <form onSubmit={submit}>
                 <div>
+                    <Label forInput="email" value="Email" />
+
+                    <Input
+                        type="email"
+                        name="email"
+                        value={data.email}
+                        className="mt-1 block w-full"
+                        autoComplete="username"
+                        handleChange={onHandleChange}
+                        required
+                    />
+                </div>
+
+                <div className="mt-4">
                     <Label forInput="name" value="Nombre" />
 
                     <Input
@@ -124,7 +139,7 @@ export default function Register() {
                         isFocused={true}
                         handleChange={onHandleNumber}
                         required
-                        max="8"
+                        maxlength="8"
                         min="7"
                     />
                 </div>
@@ -155,7 +170,6 @@ export default function Register() {
                         autoComplete="card_number"
                         isFocused={true}
                         handleChange={onHandleNumber}
-                        required
                     />
                 </div>
 
@@ -219,17 +233,44 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <Label forInput="email" value="Email" />
+                    <Label forInput="cbu" value="CBU" />
 
                     <Input
-                        type="email"
-                        name="email"
-                        value={data.email}
+                        type="text"
+                        name="cbu"
+                        value={data.cbu}
                         className="mt-1 block w-full"
-                        autoComplete="username"
-                        handleChange={onHandleChange}
-                        required
+                        autoComplete="cbu"
+                        isFocused={true}
+                        handleChange={onHandleNumber}
                     />
+                </div>
+
+                <div className="mt-4">
+                    <Label forInput="cvu" value="CVU (Mercado Pago)" />
+
+                    <Input
+                        type="text"
+                        name="cvu"
+                        value={data.cvu}
+                        className="mt-1 block w-full"
+                        autoComplete="cvu"
+                        isFocused={true}
+                        handleChange={onHandleNumber}
+                    />
+                </div>
+
+                <div className="mt-4">
+                    <Label forInput="pais" value="País de operación" />
+                    <select
+                        onChange={onHandlerSelectChange}
+                        name="pais"
+                        value={data.pais}
+                        className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full"
+                    >
+                        <option value="Arg">Argentina</option>
+                        <option value="Uru">Uruguay</option>
+                    </select>
                 </div>
 
                 <div className="mt-4">
@@ -261,11 +302,11 @@ export default function Register() {
 
                 <div className="flex items-center justify-end mt-4">
                     <Link href={route('login')} className="underline text-sm text-gray-600 hover:text-gray-900">
-                        Already registered?
+                        Ya estás registrado?
                     </Link>
 
                     <Button className="ml-4" processing={processing}>
-                        Register
+                        Registrarse
                     </Button>
                 </div>
             </form>
