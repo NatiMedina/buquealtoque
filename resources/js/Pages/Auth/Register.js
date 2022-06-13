@@ -144,7 +144,7 @@ export default function Register() {
                     />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 block font-medium text-sm text-gray-700">
                     <Label forInput="birthday" value="Fecha de nacimiento" />
 
                     <Input
@@ -176,28 +176,28 @@ export default function Register() {
                 <div className="mt-4">
                     {/* <Label forInput="card_details" value="Fecha de vencimiento" /> */}
                     <div className="mb-3 -mx-2 flex items-end">
-                        <div className="px-2 w-1/3">
+                        <div className="px-2 w-1/3 block font-medium text-sm text-gray-700">
                             <Label forInput="card_details" value="Vencimiento" />
                             <select
                                 onChange={onHandlerSelectChange}
                                 name="card_expire_month"
                                 value={data.card_expire_month}
-                                className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
-                                <option value="01">01 - Ene</option>
-                                <option value="02">02 - Feb</option>
-                                <option value="03">03 - Mar</option>
-                                <option value="04">04 - Abr</option>
-                                <option value="05">05 - May</option>
-                                <option value="06">06 - Jun</option>
-                                <option value="07">07 - Jul</option>
-                                <option value="08">08 - Ago</option>
-                                <option value="09">09 - Sep</option>
-                                <option value="10">10 - Oct</option>
-                                <option value="11">11 - Nov</option>
-                                <option value="12">12 - Dic</option>
+                                className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full ">
+                                <option  value="01">01 - Ene</option>
+                                <option  value="02">02 - Feb</option>
+                                <option  value="03">03 - Mar</option>
+                                <option  value="04">04 - Abr</option>
+                                <option  value="05">05 - May</option>
+                                <option  value="06">06 - Jun</option>
+                                <option  value="07">07 - Jul</option>
+                                <option  value="08">08 - Ago</option>
+                                <option  value="09">09 - Sep</option>
+                                <option  value="10">10 - Oct</option>
+                                <option  value="11">11 - Nov</option>
+                                <option  value="12">12 - Dic</option>
                             </select>
                         </div>
-                        <div className="px-2 w-1/3">
+                        <div className="px-2 w-1/3 block font-medium text-sm text-gray-700">
                             {/* <Label forInput="card_details" value="Año" /> */}
                             <select
                                 onChange={onHandlerSelectChange}
@@ -205,16 +205,16 @@ export default function Register() {
                                 value={data.card_expire_year}
                                 className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full"
                             >
-                                <option value="2022">2022</option>
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                                <option value="2026">2026</option>
-                                <option value="2027">2027</option>
-                                <option value="2028">2028</option>
-                                <option value="2029">2029</option>
-                                <option value="2030">2030</option>
-                                <option value="2031">2031</option>
+                                <option  value="2022">2022</option>
+                                <option  value="2023">2023</option>
+                                <option  value="2024">2024</option>
+                                <option  value="2025">2025</option>
+                                <option  value="2026">2026</option>
+                                <option  value="2027">2027</option>
+                                <option  value="2028">2028</option>
+                                <option  value="2029">2029</option>
+                                <option  value="2030">2030</option>
+                                <option  value="2031">2031</option>
                             </select>
                         </div>
                         <div className="px-2 w-1/3">
@@ -260,7 +260,7 @@ export default function Register() {
                     />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 block font-medium text-sm text-gray-700">
                     <Label forInput="pais" value="País de operación" />
                     <select
                         onChange={onHandlerSelectChange}
