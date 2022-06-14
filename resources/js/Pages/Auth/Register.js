@@ -64,8 +64,7 @@ export default function Register() {
     const cardRegExp = /^[\d]{16}?$/;
     const cbuRegExp = /^[\d]{22}?$/;
     const pinRegExp = /^[\d]{3,4}?$/;
-    const nameRegExp = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]{3,30}?$/;
-
+    const nameRegExp = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+?$/;
 
     const validate = Yup.object({
         name: Yup.string().matches(nameRegExp, 'Debe ingresar sólo letras').min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
@@ -172,23 +171,6 @@ export default function Register() {
                         maxLength="8"
                     />
 
-                    {/* <div className="mt-4">
-                        <Label forInput="dni" value="DNI" />
-
-                        <Input
-                            type="text"
-                            name="dni"
-                            value={data.dni}
-                            className="mt-1 block w-full"
-                            autoComplete="dni"
-                            isFocused={true}
-                            handleChange={onHandleNumber}
-                            required
-                            maxLength="8"
-                            min="7"
-                        />
-                    </div> */}
-
 
                     <InputTextFormik
                         divClassName="mt-4 flex flex-col items-start"
@@ -215,20 +197,6 @@ export default function Register() {
                             required
                         />
                     </div>
-
-                    {/* <div className="mt-4">
-                        <Label forInput="card_number" value="Nro de tarjeta" />
-
-                        <Input
-                            type="text"
-                            name="card_number"
-                            value={data.card_number}
-                            className="mt-1 block w-full"
-                            autoComplete="card_number"
-                            isFocused={true}
-                            handleChange={onHandleNumber}
-                        />
-                    </div> */}
 
                     <InputTextFormik
                         divClassName="mt-4 flex flex-col items-start"
