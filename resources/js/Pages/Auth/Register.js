@@ -5,6 +5,9 @@ import Input from '@/Components/Input';
 import Label from '@/Components/Label';
 import ValidationErrors from '@/Components/ValidationErrors';
 import { Head, Link, useForm } from '@inertiajs/inertia-react';
+import { Formik, Form } from 'formik'
+import InputTextFormik from '@/Components/InputTextFormik';
+import * as Yup from 'yup'
 
 export default function Register() {
 
@@ -38,10 +41,6 @@ export default function Register() {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
     };
 
-    const onHandleNumber = (event) => {
-        const result = event.target.value.replace(/\D/g, '');
-        setData(event.target.name, result)
-    };
 
     const onHandlerSelectChange = (event) => {
 
@@ -61,255 +60,313 @@ export default function Register() {
         post(route('register'));
     };
 
+    const regexDni = /^\d{7,8}$/;
+    const cardRegExp = /^[\d]{16}?$/;
+    const cbuRegExp = /^[\d]{22}?$/;
+    const pinRegExp = /^[\d]{3,4}?$/;
+
+
+    const validate = Yup.object({
+        name: Yup.string().min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
+        last_name: Yup.string().min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
+        address: Yup.string().min(3, 'Debe ser de al menos 3 caracteres').max(50, 'No debe superar los 50 caracteres').required('Obligatorio'),
+        dni: Yup.string().matches(regexDni, 'Ingrese un dni de entre 7 y 8 dígitos').required('Obligatorio'),
+        //birthday: '',
+        email: Yup.string().email('Ingrese un email válido').required('Obligatorio'),
+        password: Yup.string().min(8, 'Debe ser de al menos 8 caracteres').max(50, 'No debe superar los 50 caracteres').required('Obligatorio'),
+        password_confirmation: Yup.string().oneOf([Yup.ref('password'), null], "Las contraseñas deben ser iguales").required('Obligatorio'),
+        card_number: Yup.string().matches(cardRegExp, 'Debe ingresar 16 dígitos'),
+        // card_expire_year: '2022',
+        // card_expire_month: '06',
+        card_pin: Yup.string().matches(pinRegExp, 'valor inválido'),
+        cbu: Yup.string().matches(cbuRegExp, 'Debe ingresar 22 dígitos'),
+        cvu: Yup.string().matches(cbuRegExp, 'Debe ingresar 22 dígitos'),
+
+    })
+
+
     return (
         <Guest>
             <Head title="Register" />
 
             <ValidationErrors errors={errors} />
 
-            <form onSubmit={submit}>
-                <div>
-                    <Label forInput="email" value="Email" />
+            <Formik
+                initialValues={{
+                    name: '',
+                    last_name: '',
+                    address: '',
+                    dni: '',
+                    birthday: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                    card_type: '',
+                    card_number: '',
+                    card_expire_year: '2022',
+                    card_expire_month: '06',
+                    card_pin: '',
+                    cbu: '',
+                    cvu: '',
+                    pais: 'Arg'
+                }}
 
-                    <Input
-                        type="email"
+                validationSchema={validate}
+
+                onSubmit={values => {
+
+                    // values.card_expire_year = data.card_expire_year;
+                    // values.card_expire_month = data.card_expire_month;
+                    // values.birthday = data.birthday;
+                    // values.pais = data.pais;
+
+                    data.name = "El pepe";
+
+                    setData("name", values.name);
+                    setData("last_name", values.last_name);
+                    setData("address", values.address);
+                    setData("dni", values.dni);
+                    setData("email", values.email);
+                    setData("password", values.password);
+                    setData("password_confirmation", values.password_confirmation);
+                    setData("card_number", values.card_number);
+                    setData("card_pin", values.card_pin);
+                    setData("cbu", values.cbu);
+                    setData("cvu", values.cvu);
+
+
+
+                    console.log("Data", data, "values", values);
+
+                    post(route('register'));
+                }}
+            >
+
+
+                <Form>
+
+                    <InputTextFormik
+                        divClassName="flex flex-col items-start"
+                        label='Email'
                         name="email"
-                        value={data.email}
+                        type='email'
                         className="mt-1 block w-full"
-                        autoComplete="username"
-                        handleChange={onHandleChange}
-                        required
+                        autoComplete="email"
                     />
-                </div>
 
-                <div className="mt-4">
-                    <Label forInput="name" value="Nombre" />
-
-                    <Input
-                        type="text"
+                    <InputTextFormik
+                        divClassName="mt-4 flex flex-col items-start"
+                        label='Nombre'
                         name="name"
-                        value={data.name}
                         className="mt-1 block w-full"
                         autoComplete="name"
-                        isFocused={true}
-                        handleChange={onHandleChange}
-                        required
+                        maxLength="30"
                     />
-                </div>
 
-                <div className="mt-4">
-                    <Label forInput="last_name" value="Apellido" />
-
-                    <Input
-                        type="text"
+                    <InputTextFormik
+                        divClassName="mt-4 flex flex-col items-start"
+                        label='Apellido'
                         name="last_name"
-                        value={data.last_name}
                         className="mt-1 block w-full"
                         autoComplete="last_name"
-                        isFocused={true}
-                        handleChange={onHandleChange}
-                        required
+                        maxLength="30"
                     />
-                </div>
 
-                <div className="mt-4">
-                    <Label forInput="address" value="Domicilio" />
 
-                    <Input
-                        type="text"
-                        name="address"
-                        value={data.address}
-                        className="mt-1 block w-full"
-                        autoComplete="address"
-                        isFocused={true}
-                        handleChange={onHandleChange}
-                        required
-                    />
-                </div>
-
-                <div className="mt-4">
-                    <Label forInput="dni" value="DNI" />
-
-                    <Input
-                        type="text"
+                    <InputTextFormik
+                        divClassName="mt-4 flex flex-col items-start"
+                        label='DNI'
                         name="dni"
-                        value={data.dni}
                         className="mt-1 block w-full"
                         autoComplete="dni"
-                        isFocused={true}
-                        handleChange={onHandleNumber}
-                        required
-                        maxlength="8"
-                        min="7"
+                        maxLength="8"
                     />
-                </div>
 
-                <div className="mt-4 block font-medium text-sm text-gray-700">
-                    <Label forInput="birthday" value="Fecha de nacimiento" />
+                    {/* <div className="mt-4">
+                        <Label forInput="dni" value="DNI" />
 
-                    <Input
-                        type="date"
-                        name="birthday"
-                        value={data.birthday}
+                        <Input
+                            type="text"
+                            name="dni"
+                            value={data.dni}
+                            className="mt-1 block w-full"
+                            autoComplete="dni"
+                            isFocused={true}
+                            handleChange={onHandleNumber}
+                            required
+                            maxLength="8"
+                            min="7"
+                        />
+                    </div> */}
+
+
+                    <InputTextFormik
+                        divClassName="mt-4 flex flex-col items-start"
+                        label='Domicilio'
+                        name="address"
                         className="mt-1 block w-full"
-                        autoComplete="birthday"
-                        isFocused={true}
-                        handleChange={onHandleChange}
-                        required
+                        autoComplete="address"
+                        maxLength="50"
                     />
-                </div>
 
-                <div className="mt-4">
-                    <Label forInput="card_number" value="Nro de tarjeta" />
 
-                    <Input
-                        type="text"
+                    <div className="mt-4 block font-medium text-sm text-gray-700">
+                        <Label forInput="birthday" value="Fecha de nacimiento" />
+
+                        <Input
+                            type="date"
+                            name="birthday"
+                            value={data.birthday}
+                            className="mt-1 block w-full"
+                            autoComplete="birthday"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            max="2004-06-12"
+                            required
+                        />
+                    </div>
+
+                    {/* <div className="mt-4">
+                        <Label forInput="card_number" value="Nro de tarjeta" />
+
+                        <Input
+                            type="text"
+                            name="card_number"
+                            value={data.card_number}
+                            className="mt-1 block w-full"
+                            autoComplete="card_number"
+                            isFocused={true}
+                            handleChange={onHandleNumber}
+                        />
+                    </div> */}
+
+                    <InputTextFormik
+                        divClassName="mt-4 flex flex-col items-start"
+                        label='Nro tarjeta'
                         name="card_number"
-                        value={data.card_number}
                         className="mt-1 block w-full"
                         autoComplete="card_number"
-                        isFocused={true}
-                        handleChange={onHandleNumber}
+                        maxLength="16"
                     />
-                </div>
 
-                <div className="mt-4">
-                    {/* <Label forInput="card_details" value="Fecha de vencimiento" /> */}
-                    <div className="mb-3 -mx-2 flex items-end">
-                        <div className="px-2 w-1/3 block font-medium text-sm text-gray-700">
-                            <Label forInput="card_details" value="Vencimiento" />
-                            <select
-                                onChange={onHandlerSelectChange}
-                                name="card_expire_month"
-                                value={data.card_expire_month}
-                                className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full ">
-                                <option  value="01">01 - Ene</option>
-                                <option  value="02">02 - Feb</option>
-                                <option  value="03">03 - Mar</option>
-                                <option  value="04">04 - Abr</option>
-                                <option  value="05">05 - May</option>
-                                <option  value="06">06 - Jun</option>
-                                <option  value="07">07 - Jul</option>
-                                <option  value="08">08 - Ago</option>
-                                <option  value="09">09 - Sep</option>
-                                <option  value="10">10 - Oct</option>
-                                <option  value="11">11 - Nov</option>
-                                <option  value="12">12 - Dic</option>
-                            </select>
-                        </div>
-                        <div className="px-2 w-1/3 block font-medium text-sm text-gray-700">
-                            {/* <Label forInput="card_details" value="Año" /> */}
-                            <select
-                                onChange={onHandlerSelectChange}
-                                name="card_expire_year"
-                                value={data.card_expire_year}
-                                className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full"
-                            >
-                                <option  value="2022">2022</option>
-                                <option  value="2023">2023</option>
-                                <option  value="2024">2024</option>
-                                <option  value="2025">2025</option>
-                                <option  value="2026">2026</option>
-                                <option  value="2027">2027</option>
-                                <option  value="2028">2028</option>
-                                <option  value="2029">2029</option>
-                                <option  value="2030">2030</option>
-                                <option  value="2031">2031</option>
-                            </select>
-                        </div>
-                        <div className="px-2 w-1/3">
-                            <Label forInput="card_pin" value="CVV" />
-
-                            <Input
-                                type="text"
-                                name="card_pin"
-                                value={data.card_pin}
-                                className="mt-1 block w-full"
-                                autoComplete="username"
-                                handleChange={onHandleNumber}
-                            />
+                    <div className="mt-4">
+                        {/* <Label forInput="card_details" value="Fecha de vencimiento" /> */}
+                        <div className="mb-3 -mx-2 flex items-end">
+                            <div className="px-2 w-1/3 block font-medium text-sm text-gray-700">
+                                <Label forInput="card_details" value="Vencimiento" />
+                                <select
+                                    onChange={onHandlerSelectChange}
+                                    name="card_expire_month"
+                                    value={data.card_expire_month}
+                                    className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full ">
+                                    <option value="01">01 - Ene</option>
+                                    <option value="02">02 - Feb</option>
+                                    <option value="03">03 - Mar</option>
+                                    <option value="04">04 - Abr</option>
+                                    <option value="05">05 - May</option>
+                                    <option value="06">06 - Jun</option>
+                                    <option value="07">07 - Jul</option>
+                                    <option value="08">08 - Ago</option>
+                                    <option value="09">09 - Sep</option>
+                                    <option value="10">10 - Oct</option>
+                                    <option value="11">11 - Nov</option>
+                                    <option value="12">12 - Dic</option>
+                                </select>
+                            </div>
+                            <div className="px-2 w-1/3 block font-medium text-sm text-gray-700">
+                                {/* <Label forInput="card_details" value="Año" /> */}
+                                <select
+                                    onChange={onHandlerSelectChange}
+                                    name="card_expire_year"
+                                    value={data.card_expire_year}
+                                    className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full"
+                                >
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                    <option value="2031">2031</option>
+                                </select>
+                            </div>
+                            <div className="px-2 w-1/3">
+                                <InputTextFormik
+                                    divClassName="mt-4 flex flex-col items-start"
+                                    label='CVV'
+                                    name="card_pin"
+                                    className="mt-1 block w-full"
+                                    maxLength="4"
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="mt-4">
-                    <Label forInput="cbu" value="CBU" />
-
-                    <Input
-                        type="text"
+                    <InputTextFormik
+                        divClassName="mt-4 flex flex-col items-start"
+                        label='CBU'
                         name="cbu"
-                        value={data.cbu}
                         className="mt-1 block w-full"
                         autoComplete="cbu"
-                        isFocused={true}
-                        handleChange={onHandleNumber}
+                        maxLength="22"
                     />
-                </div>
 
-                <div className="mt-4">
-                    <Label forInput="cvu" value="CVU (Mercado Pago)" />
-
-                    <Input
-                        type="text"
+                    <InputTextFormik
+                        divClassName="mt-4 flex flex-col items-start"
+                        label='CVU (Mercado pago)'
                         name="cvu"
-                        value={data.cvu}
                         className="mt-1 block w-full"
                         autoComplete="cvu"
-                        isFocused={true}
-                        handleChange={onHandleNumber}
+                        maxLength="22"
                     />
-                </div>
 
-                <div className="mt-4 block font-medium text-sm text-gray-700">
-                    <Label forInput="pais" value="País de operación" />
-                    <select
-                        onChange={onHandlerSelectChange}
-                        name="pais"
-                        value={data.pais}
-                        className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full"
-                    >
-                        <option value="Arg">Argentina</option>
-                        <option value="Uru">Uruguay</option>
-                    </select>
-                </div>
+                    <div className="mt-4 block font-medium text-sm text-gray-700">
+                        <Label forInput="pais" value="País de operación" />
+                        <select
+                            onChange={onHandlerSelectChange}
+                            name="pais"
+                            value={data.pais}
+                            className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full"
+                        >
+                            <option value="Arg">Argentina</option>
+                            <option value="Uru">Uruguay</option>
+                        </select>
+                    </div>
 
-                <div className="mt-4">
-                    <Label forInput="password" value="Password" />
-
-                    <Input
-                        type="password"
+                    <InputTextFormik
+                        divClassName="mt-4 flex flex-col items-start"
+                        label='Contraseña'
+                        type='password'
                         name="password"
-                        value={data.password}
                         className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        handleChange={onHandleChange}
-                        required
+                        autoComplete="password"
                     />
-                </div>
 
-                <div className="mt-4">
-                    <Label forInput="password_confirmation" value="Confirm Password" />
-
-                    <Input
-                        type="password"
+                    <InputTextFormik
+                        divClassName="mt-4 flex flex-col items-start"
+                        type='password'
+                        label='Confirme contraseña'
                         name="password_confirmation"
-                        value={data.password_confirmation}
                         className="mt-1 block w-full"
-                        handleChange={onHandleChange}
-                        required
+                        autoComplete="cbu"
                     />
-                </div>
 
-                <div className="flex items-center justify-end mt-4">
-                    <Link href={route('login')} className="underline text-sm text-gray-600 hover:text-gray-900">
-                        Ya estás registrado?
-                    </Link>
+                    <div className="flex items-center justify-end mt-4">
+                        <Link href={route('login')} className="underline text-sm text-gray-600 hover:text-gray-900">
+                            Ya estás registrado?
+                        </Link>
 
-                    <Button className="ml-4" processing={processing}>
-                        Registrarse
-                    </Button>
-                </div>
-            </form>
+                        <Button className="ml-4" processing={processing} type="submit">
+                            Registrarse
+                        </Button>
+                    </div>
+
+                </Form>
+            </Formik>
+
         </Guest>
     );
 }
