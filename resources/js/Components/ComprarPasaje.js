@@ -3,10 +3,9 @@ import Input from '@/Components/Input';
 import Button from '@/Components/Button';
 import Label from '@/Components/Label';
 import ValidationErrors from '@/Components/ValidationErrors';
-
 import { Link, useForm } from '@inertiajs/inertia-react';
 import { result } from 'lodash';
-
+import { setToLocalStorage, getFromLocalStorage } from '../utils/store';
 
 export default function ComprarPasaje(props) {
 
@@ -14,32 +13,28 @@ export default function ComprarPasaje(props) {
     const today = date.toISOString().split('T')[0];
 
 
-    const { data, setData, post, processing, errors, reset } = useForm({
-        origen: '',
-        destino: '',
-        fecha_partida: today,
-        fecha_regreso: today,
-        pasaje_adulto: 1,
-        pasaje_menor: 0,
-        vehiculo: 0,
-    });
-
-
+    const { data, setData, post, processing, errors, reset } = useForm(getFromLocalStorage());
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+        const dataStorage = getFromLocalStorage();
+        dataStorage[event.target.name] = event.target.value
+        setToLocalStorage(dataStorage);
     };
 
-    const onHandlerSelectChange = (event) => {
+    const onHandlerSelectChange = async (event) => {
 
-        if (event.target.name == 'card_expire_month' &&
-            data.card_expire_year == date.getFullYear() &&
-            parseInt(event.target.value) < (date.getMonth() + 1)
-        ) {
-            return;
-        }
-
+        // if (event.target.name == 'card_expire_month' &&
+        //     data.card_expire_year == date.getFullYear() &&
+        //     parseInt(event.target.value) < (date.getMonth() + 1)
+        // ) {
+        //     return;
+        // }
+        
         setData(event.target.name, event.target.value)
+        const dataStorage = getFromLocalStorage();
+        dataStorage[event.target.name] = event.target.value
+        setToLocalStorage(dataStorage);
     }
 
     const onHandleNumber = (event) => {
@@ -53,8 +48,13 @@ export default function ComprarPasaje(props) {
             result = parseInt(event.target.max)
         }
 
-        if (!!result)
+        if (!!result){
             setData(event.target.name, result)
+            const dataStorage = getFromLocalStorage();
+            dataStorage[event.target.name] = event.target.value
+            setToLocalStorage(dataStorage);
+        }
+            
     };
 
     const submit = async (e) => {
@@ -68,15 +68,15 @@ export default function ComprarPasaje(props) {
             <form onSubmit={submit}>
                 <div className="">
                     <Label forInput="origen" value="Elige el origen" />
-
                     <select
                         onChange={onHandlerSelectChange}
                         required
                         type="text"
                         name="origen"
+                        value={data.origen}
                         className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full block font-medium text-sm text-gray-700">
-                        <option>Buenos Aires</option>
-                        <option>Tigre</option>
+                        <option value="Buenos Aires">Buenos Aires</option>
+                        <option value="Tigre">Tigre</option>
                     </select>
                 </div>
 
@@ -88,10 +88,11 @@ export default function ComprarPasaje(props) {
                         required
                         type="text"
                         name="destino"
+                        value={data.destino}
                         className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full block font-medium text-sm text-gray-700">
-                        <option>Colonia</option>
-                        <option>Piriápolis</option>
-                        <option>Punta del Este</option>
+                        <option value="Colonia">Colonia</option>
+                        <option value="Piriápolis" >Piriápolis</option>
+                        <option value="Punta del Este" >Punta del Este</option>
                     </select>
                 </div>
 
@@ -182,10 +183,11 @@ export default function ComprarPasaje(props) {
                     {(!props.user) ?
                         <Link href={route('login')} as="button" type="button" className='inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150'> Buscar </Link>
                         :
+                        <Link href={route('buscar')} as="button" type="button" className='inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150'> Buscar </Link>
 
-                        <Button processing={processing}>
-                            Buscar
-                        </Button>
+                        // <Button processing={processing}>
+                        //     Buscar
+                        // </Button>
                     }
 
 
