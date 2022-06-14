@@ -55,10 +55,6 @@ export default function Register() {
 
     };
 
-    const submit = (e) => {
-        e.preventDefault();
-        post(route('register'));
-    };
 
     const regexDni = /^\d{7,8}?$/;
     const cardRegExp = /^[\d]{16}?$/;

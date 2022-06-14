@@ -9,8 +9,10 @@ export default function Input({
     required,
     isFocused,
     handleChange,
+    handleBlur,
     placeholder,
-    max
+    max,
+    min
 }) {
     const input = useRef();
 
@@ -35,7 +37,9 @@ export default function Input({
                 autoComplete={autoComplete}
                 required={required}
                 onChange={(e) => handleChange(e)}
+                onBlur={(e) => handleChange(e)}
                 max={max}
+                min={min}
             />
         </div>
     );
