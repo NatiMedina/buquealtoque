@@ -7,7 +7,7 @@ export default function Welcome(props) {
     return (
         <>
             <Head title="Welcome" />
-            <div className="relative flex items-top justify-center min-h-screen bg-gray-100  sm:items-center sm:pt-0">
+            <div className="relative flex items-top justify-center min-h-screen bg-gray-200  sm:items-center sm:pt-0">
                 <div className="fixed top-0 right-0 px-6 py-4 sm:block">
                     {props.auth.user ? (
                         <Link href={route('dashboard')} className="text-sm text-gray-700 underline">
@@ -30,11 +30,11 @@ export default function Welcome(props) {
                         <ApplicationLogo className="w-20 h-20 fill-current text-gray-700" />
                     </div>
 
-                    <div className="mt-8 bg-white dark:bg-gray-300 overflow-hidden shadow sm:rounded-lg">
+                    <div className="mt-8 bg-white dark:bg-blue-100 overflow-hidden shadow sm:rounded-lg">
                             <div className="p-6">
                                 <div className="mx-12">
                                     <div className="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                        <ComprarPasaje />
+                                        <ComprarPasaje user={props.auth.user} />
                                     </div>
                                 </div>
                         </div>
