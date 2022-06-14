@@ -3445,23 +3445,17 @@ function Register() {
       },
       validationSchema: validate,
       onSubmit: function onSubmit(values) {
-        // values.card_expire_year = data.card_expire_year;
-        // values.card_expire_month = data.card_expire_month;
-        // values.birthday = data.birthday;
-        // values.pais = data.pais;
-        data.name = "El pepe";
-        setData("name", values.name);
-        setData("last_name", values.last_name);
-        setData("address", values.address);
-        setData("dni", values.dni);
-        setData("email", values.email);
-        setData("password", values.password);
-        setData("password_confirmation", values.password_confirmation);
-        setData("card_number", values.card_number);
-        setData("card_pin", values.card_pin);
-        setData("cbu", values.cbu);
-        setData("cvu", values.cvu);
-        console.log("Data", data, "values", values);
+        data.name = values.name;
+        data.last_name = values.last_name;
+        data.address = values.address;
+        data.dni = values.dni;
+        data.email = values.email;
+        data.password = values.password;
+        data.password_confirmation = values.password_confirmation;
+        data.card_number = values.card_number;
+        data.card_pin = values.card_pin;
+        data.cbu = values.cbu;
+        data.cvu = values.cvu;
         post(route('register'));
       },
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(formik__WEBPACK_IMPORTED_MODULE_7__.Form, {
