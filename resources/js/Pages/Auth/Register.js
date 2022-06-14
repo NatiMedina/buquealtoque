@@ -60,15 +60,16 @@ export default function Register() {
         post(route('register'));
     };
 
-    const regexDni = /^\d{7,8}$/;
+    const regexDni = /^\d{7,8}?$/;
     const cardRegExp = /^[\d]{16}?$/;
     const cbuRegExp = /^[\d]{22}?$/;
     const pinRegExp = /^[\d]{3,4}?$/;
+    const nameRegExp = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]{3,30}?$/;
 
 
     const validate = Yup.object({
-        name: Yup.string().min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
-        last_name: Yup.string().min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
+        name: Yup.string().matches(nameRegExp, 'Debe ingresar sólo letras').min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
+        last_name: Yup.string().matches(nameRegExp, 'Debe ingresar sólo letras').min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
         address: Yup.string().min(3, 'Debe ser de al menos 3 caracteres').max(50, 'No debe superar los 50 caracteres').required('Obligatorio'),
         dni: Yup.string().matches(regexDni, 'Ingrese un dni de entre 7 y 8 dígitos').required('Obligatorio'),
         //birthday: '',

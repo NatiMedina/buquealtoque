@@ -3399,13 +3399,14 @@ function Register() {
     post(route('register'));
   };
 
-  var regexDni = /^\d{7,8}$/;
+  var regexDni = /^\d{7,8}?$/;
   var cardRegExp = /^[\d]{16}?$/;
   var cbuRegExp = /^[\d]{22}?$/;
   var pinRegExp = /^[\d]{3,4}?$/;
+  var nameRegExp = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]{3,30}?$/;
   var validate = yup__WEBPACK_IMPORTED_MODULE_9__.object({
-    name: yup__WEBPACK_IMPORTED_MODULE_9__.string().min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
-    last_name: yup__WEBPACK_IMPORTED_MODULE_9__.string().min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
+    name: yup__WEBPACK_IMPORTED_MODULE_9__.string().matches(nameRegExp, 'Debe ingresar sólo letras').min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
+    last_name: yup__WEBPACK_IMPORTED_MODULE_9__.string().matches(nameRegExp, 'Debe ingresar sólo letras').min(3, 'Debe ser de al menos 3 caracteres').max(30, 'No debe superar los 30 caracteres').required('Obligatorio'),
     address: yup__WEBPACK_IMPORTED_MODULE_9__.string().min(3, 'Debe ser de al menos 3 caracteres').max(50, 'No debe superar los 50 caracteres').required('Obligatorio'),
     dni: yup__WEBPACK_IMPORTED_MODULE_9__.string().matches(regexDni, 'Ingrese un dni de entre 7 y 8 dígitos').required('Obligatorio'),
     //birthday: '',
