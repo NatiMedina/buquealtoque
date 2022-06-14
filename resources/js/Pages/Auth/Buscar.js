@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@/Components/Button';
 import { Head } from '@inertiajs/inertia-react';
 import Authenticated from '@/Layouts/Authenticated';
 import { getFromLocalStorage } from '../../utils/store';
 import SweetAlert2 from 'react-sweetalert2';
+import Swal from 'sweetalert2';
 
 export default function Buscar(props, { status }) {
 
     const viajes = [getFromLocalStorage(), getFromLocalStorage()];
-    const [swalProps, setSwalProps] = useState({});
+//    const [swalProps, setSwalProps] = useState({});
 
-    function handleClick(){
-        setSwalProps({
+    function handleClick() {
+        Swal.fire({
             show: true,
             title: '',
             text: 'Reserva realizada con éxito',
             icon: 'success'
-        }); 
+        });
     }
 
     return (
@@ -48,7 +49,7 @@ export default function Buscar(props, { status }) {
                                         </div>
                                         <div className="px-6 pt-4 pb-2 flex items-center justify-end mt-4">
                                             <Button handlerOnClick={handleClick}>Reservar</Button>
-                                            <SweetAlert2 {...swalProps} />
+                                           
                                         </div>
                                     </div>
                                 )}
@@ -56,7 +57,7 @@ export default function Buscar(props, { status }) {
                         </div>
                     </div>
                 </div>
-                
+
             </div>
 
 
